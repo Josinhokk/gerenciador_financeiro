@@ -1,4 +1,42 @@
 package br.com.kayke.organizadorfinanceiro.model;
 
+import jakarta.persistence.*;
+import lombok.AllArgsConstructor;
+import lombok.NoArgsConstructor;
+
+import java.math.BigDecimal;
+import java.util.Date;
+import java.util.List;
+
+@Entity
+@NoArgsConstructor
+@AllArgsConstructor
+@Table(name = "contratos")
 public class Contrato {
+
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    private Long id;
+
+    private String nomeCliente;
+
+    private String numProcesso;
+
+    private BigDecimal valorTotal;
+
+    private Integer numParcelas;
+
+    private Date dataInicio;
+
+    @OneToMany(mappedBy = "contrato")
+    private List<Parcela> parcela;
+
+    public Contrato(String nomeCliente, String numProcesso, BigDecimal valorTotal, Integer numParcelas, Date date) {
+        this.nomeCliente = nomeCliente;
+        this.numProcesso = numProcesso;
+        this.valorTotal = valorTotal;
+        this.numParcelas = numParcelas;
+        this.dataInicio = date;
+    }
+
 }

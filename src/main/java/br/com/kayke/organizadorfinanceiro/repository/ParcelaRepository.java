@@ -1,4 +1,7 @@
 package br.com.kayke.organizadorfinanceiro.repository;
 
-public interface ParcelaRepository {
+import br.com.kayke.organizadorfinanceiro.model.Parcela;
+import org.springframework.data.jpa.repository.JpaRepository;
+
+public interface ParcelaRepository extends JpaRepository<Parcela, Long> {
 }
