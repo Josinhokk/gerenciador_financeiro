@@ -1,10 +1,11 @@
 package br.com.kayke.organizadorfinanceiro.dto;
 
+import com.fasterxml.jackson.annotation.JsonFormat;
 import jakarta.validation.constraints.NotBlank;
 import jakarta.validation.constraints.NotNull;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 
 public record CadastrarContratoDto(
         @NotBlank
@@ -18,6 +19,7 @@ public record CadastrarContratoDto(
 
         Integer numeroParcelas,
 
-        Date date
+        @JsonFormat(pattern = "dd/MM/yyyy")
+        LocalDate data
 ) {
 }

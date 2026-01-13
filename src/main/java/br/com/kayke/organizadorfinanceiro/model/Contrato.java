@@ -5,7 +5,7 @@ import lombok.AllArgsConstructor;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
-import java.util.Date;
+import java.time.LocalDate;
 import java.util.List;
 
 @Entity
@@ -26,17 +26,17 @@ public class Contrato {
 
     private Integer numParcelas;
 
-    private Date dataInicio;
+    private LocalDate dataInicio;
 
     @OneToMany(mappedBy = "contrato")
     private List<Parcela> parcela;
 
-    public Contrato(String nomeCliente, String numProcesso, BigDecimal valorTotal, Integer numParcelas, Date date) {
+    public Contrato(String nomeCliente, String numProcesso, BigDecimal valorTotal, Integer numParcelas, LocalDate data) {
         this.nomeCliente = nomeCliente;
         this.numProcesso = numProcesso;
         this.valorTotal = valorTotal;
         this.numParcelas = numParcelas;
-        this.dataInicio = date;
+        this.dataInicio = data;
     }
 
 }
