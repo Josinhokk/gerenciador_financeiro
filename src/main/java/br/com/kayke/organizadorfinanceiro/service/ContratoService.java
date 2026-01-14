@@ -2,12 +2,14 @@ package br.com.kayke.organizadorfinanceiro.service;
 
 import br.com.kayke.organizadorfinanceiro.dto.CadastrarContratoDto;
 import br.com.kayke.organizadorfinanceiro.dto.ContratoResumoDto;
+import br.com.kayke.organizadorfinanceiro.dto.DadoParcelaDto;
 import br.com.kayke.organizadorfinanceiro.exception.ContratoException;
 import br.com.kayke.organizadorfinanceiro.model.Contrato;
 import br.com.kayke.organizadorfinanceiro.model.Parcela;
 import br.com.kayke.organizadorfinanceiro.repository.ContratoRepository;
 import br.com.kayke.organizadorfinanceiro.repository.ParcelaRepository;
 import jakarta.validation.Valid;
+import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
@@ -18,6 +20,7 @@ import java.time.temporal.TemporalAdjuster;
 import java.util.ArrayList;
 import java.util.Date;
 import java.util.List;
+import java.util.NoSuchElementException;
 
 @Service
 public class ContratoService {
@@ -72,5 +75,18 @@ public class ContratoService {
         }).toList();
         return listaContratos;
         }
+
+    public List<DadoParcelaDto> listarParcelasContrato(Long id) {
+        try{
+            Contrato contrato = contratoRepository.findById(id).get();
+            List<DadoParcelaDto> parcelas = contrato.getParcela().stream().map(parcela -> {
+                return new DadoParcelaDto(parcela.getValor());
+            }).toList();
+            return parcelas;
+        }catch(NoSuchElementException ex){
+            throw new ContratoException("id não encontrado");
+        }
+
     }
+}
 

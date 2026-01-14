@@ -30,6 +30,16 @@ public class ContratoController {
         return ResponseEntity.ok().body(service.listarContratos());
     }
 
+    @GetMapping("/parcelas/{id}")
+    public ResponseEntity listarParcelasContrato(@PathVariable Long id){
+        return ResponseEntity.ok().body(service.listarParcelasContrato(id));
+    }
+
+//    @GetMapping
+//    public ResponseEntity listarParcelasMensal(){
+//
+//    }
+
 
 
 }
