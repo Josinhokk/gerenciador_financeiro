@@ -12,7 +12,9 @@ import org.springframework.stereotype.Service;
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
+import java.time.temporal.TemporalAdjuster;
 import java.util.Date;
+import java.util.List;
 
 @Service
 public class ContratoService {
@@ -46,4 +48,11 @@ public class ContratoService {
         }
     }
 
+    public BigDecimal listarGanhoMensal(int mes) {
+        LocalDate dataReferencia = LocalDate.of(LocalDate.now().getYear(), mes, 1);
+        LocalDate dataFinal = dataReferencia.plusMonths(1).minusDays(1);
+        List<Parcela> parcelas = parcelaRepository.findByDataParcelaBetween(dataReferencia, dataFinal);
+        BigDecimal valorTotal = parcelas.stream().map(Parcela::getValor).reduce(BigDecimal.ZERO, BigDecimal::add);
+        return valorTotal;
+    }
 }

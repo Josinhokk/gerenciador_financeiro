@@ -2,6 +2,7 @@ package br.com.kayke.organizadorfinanceiro.model;
 
 import jakarta.persistence.*;
 import lombok.AllArgsConstructor;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
 
 import java.math.BigDecimal;
@@ -12,6 +13,7 @@ import java.util.List;
 @NoArgsConstructor
 @AllArgsConstructor
 @Table(name = "contratos")
+@Getter
 public class Contrato {
 
     @Id
