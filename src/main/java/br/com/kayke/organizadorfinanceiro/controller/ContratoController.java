@@ -25,4 +25,11 @@ public class ContratoController {
         return ResponseEntity.ok().body(service.listarGanhoMensal(mes));
     }
 
+    @GetMapping
+    public ResponseEntity listarContratos(){
+        return ResponseEntity.ok().body(service.listarContratos());
+    }
+
+
+
 }
