@@ -3,22 +3,19 @@ package br.com.kayke.organizadorfinanceiro.service;
 import br.com.kayke.organizadorfinanceiro.dto.CadastrarContratoDto;
 import br.com.kayke.organizadorfinanceiro.dto.ContratoResumoDto;
 import br.com.kayke.organizadorfinanceiro.dto.DadoParcelaDto;
+import br.com.kayke.organizadorfinanceiro.dto.DadoParcelaMesDto;
 import br.com.kayke.organizadorfinanceiro.exception.ContratoException;
 import br.com.kayke.organizadorfinanceiro.model.Contrato;
 import br.com.kayke.organizadorfinanceiro.model.Parcela;
 import br.com.kayke.organizadorfinanceiro.repository.ContratoRepository;
 import br.com.kayke.organizadorfinanceiro.repository.ParcelaRepository;
 import jakarta.validation.Valid;
-import org.jspecify.annotations.Nullable;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
 import java.time.LocalDate;
-import java.time.temporal.TemporalAdjuster;
-import java.util.ArrayList;
-import java.util.Date;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -85,6 +82,21 @@ public class ContratoService {
             return parcelas;
         }catch(NoSuchElementException ex){
             throw new ContratoException("id não encontrado");
+        }
+
+    }
+
+    public List<DadoParcelaMesDto> listarParcelasMes(Integer mes) {
+        try{
+            LocalDate dataReferencia = LocalDate.of(LocalDate.now().getYear(), mes, 1);
+            LocalDate dataFinal = dataReferencia.plusMonths(1).minusDays(1);
+            List<DadoParcelaMesDto> parcelasMes = parcelaRepository.findByDataParcelaBetween(dataReferencia,dataFinal).stream()
+                    .map(parcela -> {
+                        return new DadoParcelaMesDto(parcela.getValor(),parcela.getDataParcela());
+                    }).toList();
+            return parcelasMes;
+        }catch(IllegalStateException ex){
+            throw new ContratoException("Mes invalido");
         }
 
     }

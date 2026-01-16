@@ -8,4 +8,6 @@ import java.util.List;
 
 public interface ParcelaRepository extends JpaRepository<Parcela, Long> {
     List<Parcela> findByDataParcelaBetween(LocalDate dataParcelaAfter, LocalDate dataParcelaBefore);
+
+    List<Parcela> findByDataParcelaMonthEquals(Integer mes);
 }

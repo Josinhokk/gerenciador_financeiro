@@ -15,7 +15,7 @@ public class GlobalExceptionHandler {
 
         ApiError error = new ApiError(
                 404,
-                "Contrato não encontrado",
+                "Erro",
                 ex.getMessage(),
                 LocalDateTime.now()
         );

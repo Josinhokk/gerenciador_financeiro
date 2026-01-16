@@ -35,10 +35,10 @@ public class ContratoController {
         return ResponseEntity.ok().body(service.listarParcelasContrato(id));
     }
 
-//    @GetMapping
-//    public ResponseEntity listarParcelasMensal(){
-//
-//    }
+    @GetMapping("parcela/{mes}")
+    public ResponseEntity listarParcelasMensal(@PathVariable Integer mes){
+        return ResponseEntity.ok().body(service.listarParcelasMes(mes));
+    }
 
 
 
