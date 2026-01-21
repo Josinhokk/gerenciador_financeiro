@@ -19,7 +19,7 @@ public record CadastrarContratoDto(
 
         Integer numeroParcelas,
 
-        @JsonFormat(pattern = "dd/MM/yyyy")
+        @JsonFormat(pattern = "yyyy-MM-dd")
         LocalDate data
 ) {
 }
