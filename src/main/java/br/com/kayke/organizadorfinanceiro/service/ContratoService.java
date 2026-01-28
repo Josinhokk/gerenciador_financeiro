@@ -92,7 +92,7 @@ public class ContratoService {
             LocalDate dataFinal = dataReferencia.plusMonths(1).minusDays(1);
             List<DadoParcelaMesDto> parcelasMes = parcelaRepository.findByDataParcelaBetween(dataReferencia,dataFinal).stream()
                     .map(parcela -> {
-                        return new DadoParcelaMesDto(parcela.getValor(),parcela.getDataParcela());
+                        return new DadoParcelaMesDto(parcela.getValor(),parcela.getDataParcela(), parcela.getPago());
                     }).toList();
             return parcelasMes;
         }catch(IllegalStateException ex){

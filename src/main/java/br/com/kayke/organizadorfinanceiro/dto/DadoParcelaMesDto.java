@@ -5,6 +5,7 @@ import java.time.LocalDate;
 
 public record DadoParcelaMesDto(
         BigDecimal valor,
-        LocalDate data
+        LocalDate data,
+        Boolean pago
 ) {
 }

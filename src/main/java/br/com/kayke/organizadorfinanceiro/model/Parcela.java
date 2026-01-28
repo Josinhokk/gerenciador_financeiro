@@ -25,11 +25,14 @@ public class Parcela {
 
     private BigDecimal valor;
 
+    private Boolean pago;
+
     @ManyToOne
     private Contrato contrato;
 
     public Parcela(LocalDate dataParcela, BigDecimal valor) {
         this.dataParcela = dataParcela;
         this.valor = valor;
+        this.pago = false;
     }
 }
