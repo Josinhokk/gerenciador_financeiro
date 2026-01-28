@@ -12,6 +12,7 @@ import br.com.kayke.organizadorfinanceiro.repository.ParcelaRepository;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.math.BigDecimal;
 import java.math.RoundingMode;
@@ -67,7 +68,7 @@ public class ContratoService {
     public List<ContratoResumoDto> listarContratos(){
         List<ContratoResumoDto> listaContratos = contratoRepository.findAll().stream().map(contrato -> {
             return new ContratoResumoDto(
-                    contrato.getNomeCliente(),contrato.getNumProcesso(),contrato.getValorTotal(),contrato.getNumParcelas(),contrato.getDataInicio()
+                    contrato.getId(), contrato.getNomeCliente(),contrato.getNumProcesso(),contrato.getValorTotal(),contrato.getNumParcelas(),contrato.getDataInicio()
             );
         }).toList();
         return listaContratos;
@@ -86,19 +87,30 @@ public class ContratoService {
 
     }
 
-    public List<DadoParcelaMesDto> listarParcelasMes(Integer mes) {
+    public List<DadoParcelaMesDto>  listarParcelasMes(Integer mes) {
         try{
             LocalDate dataReferencia = LocalDate.of(LocalDate.now().getYear(), mes, 1);
             LocalDate dataFinal = dataReferencia.plusMonths(1).minusDays(1);
             List<DadoParcelaMesDto> parcelasMes = parcelaRepository.findByDataParcelaBetween(dataReferencia,dataFinal).stream()
                     .map(parcela -> {
-                        return new DadoParcelaMesDto(parcela.getValor(),parcela.getDataParcela(), parcela.getPago());
+                        return new DadoParcelaMesDto(parcela.getId(), parcela.getValor(),parcela.getDataParcela(), parcela.getPago());
                     }).toList();
             return parcelasMes;
         }catch(IllegalStateException ex){
             throw new ContratoException("Mes invalido");
         }
 
+    }
+
+    public void marcarParcelaComoPago(Long parcelaId) {
+        Parcela parcela = parcelaRepository.findById(parcelaId).get();
+        parcela.setPago(true);
+    }
+
+
+    @Transactional
+    public void removerContrato(Long contratoId) {
+        contratoRepository.deleteById(contratoId);
     }
 }
 

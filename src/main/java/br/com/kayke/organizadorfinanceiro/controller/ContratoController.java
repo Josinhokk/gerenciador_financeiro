@@ -5,6 +5,7 @@ import br.com.kayke.organizadorfinanceiro.service.ContratoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
+import org.springframework.transaction.annotation.Transactional;
 import org.springframework.web.bind.annotation.*;
 
 @RestController
@@ -30,7 +31,7 @@ public class ContratoController {
         return ResponseEntity.ok().body(service.listarContratos());
     }
 
-    @GetMapping("/parcelas/{id}")
+    @GetMapping("parcelas/{id}")
     public ResponseEntity listarParcelasContrato(@PathVariable Long id){
         return ResponseEntity.ok().body(service.listarParcelasContrato(id));
     }
@@ -40,6 +41,15 @@ public class ContratoController {
         return ResponseEntity.ok().body(service.listarParcelasMes(mes));
     }
 
+    @Transactional
+    @PutMapping("parcela/{parcelaId}")
+    public ResponseEntity marcarParcelaComoPago(@PathVariable Long parcelaId){
+        service.marcarParcelaComoPago(parcelaId);
+        return ResponseEntity.noContent().build();
+    }
 
-
+    @DeleteMapping("{contratoId}")
+    public void removerContrato(@PathVariable Long contratoId){
+        service.removerContrato(contratoId);
+    }
 }

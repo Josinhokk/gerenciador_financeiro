@@ -30,7 +30,9 @@ public class Contrato {
 
     private LocalDate dataInicio;
 
-    @OneToMany(mappedBy = "contrato")
+    @OneToMany(mappedBy = "contrato",
+            cascade = CascadeType.ALL,
+            orphanRemoval = true)
     private List<Parcela> parcela;
 
     public Contrato(String nomeCliente, String numProcesso, BigDecimal valorTotal, Integer numParcelas, LocalDate data) {

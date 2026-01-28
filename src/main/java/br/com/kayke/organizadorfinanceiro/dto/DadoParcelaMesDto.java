@@ -4,8 +4,9 @@ import java.math.BigDecimal;
 import java.time.LocalDate;
 
 public record DadoParcelaMesDto(
+        Long id,
         BigDecimal valor,
-        LocalDate data,
+        LocalDate dataParcela,
         Boolean pago
 ) {
 }
