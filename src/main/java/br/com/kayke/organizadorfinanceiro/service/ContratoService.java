@@ -1,9 +1,6 @@
 package br.com.kayke.organizadorfinanceiro.service;
 
-import br.com.kayke.organizadorfinanceiro.dto.CadastrarContratoDto;
-import br.com.kayke.organizadorfinanceiro.dto.ContratoResumoDto;
-import br.com.kayke.organizadorfinanceiro.dto.DadoParcelaDto;
-import br.com.kayke.organizadorfinanceiro.dto.DadoParcelaMesDto;
+import br.com.kayke.organizadorfinanceiro.dto.*;
 import br.com.kayke.organizadorfinanceiro.exception.ContratoException;
 import br.com.kayke.organizadorfinanceiro.model.Contrato;
 import br.com.kayke.organizadorfinanceiro.model.Parcela;
@@ -103,8 +100,13 @@ public class ContratoService {
     }
 
     public void marcarParcelaComoPago(Long parcelaId) {
+
         Parcela parcela = parcelaRepository.findById(parcelaId).get();
-        parcela.setPago(true);
+        if(parcela.getPago() == true){
+            parcela.setPago(false);
+        }else{
+            parcela.setPago(true);
+        }
     }
 
 
@@ -112,5 +114,27 @@ public class ContratoService {
     public void removerContrato(Long contratoId) {
         contratoRepository.deleteById(contratoId);
     }
+
+    public DadosContratoDto listarDadosContrato(Long id) {
+
+        Contrato contrato = contratoRepository.findById(id)
+                .orElseThrow(() -> new ContratoException("Contrato não encontrado"));
+
+        return new DadosContratoDto(
+                contrato.getNomeCliente(),
+                contrato.getNumProcesso(),
+                contrato.getValorTotal(),
+                contrato.getParcela().stream()
+                        .map(parcela ->
+                                new DadoParcelaContratoDto(
+                                        parcela.getValor(),
+                                        parcela.getDataParcela(),
+                                        parcela.getPago()
+                                )
+                        )
+                        .toList()
+        );
+    }
+
 }
 

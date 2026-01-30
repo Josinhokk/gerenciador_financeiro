@@ -1,6 +1,7 @@
 package br.com.kayke.organizadorfinanceiro.controller;
 
 import br.com.kayke.organizadorfinanceiro.dto.CadastrarContratoDto;
+import br.com.kayke.organizadorfinanceiro.dto.DadosContratoDto;
 import br.com.kayke.organizadorfinanceiro.service.ContratoService;
 import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -47,6 +48,13 @@ public class ContratoController {
         service.marcarParcelaComoPago(parcelaId);
         return ResponseEntity.noContent().build();
     }
+
+    @GetMapping("id/{id}")
+    public ResponseEntity<DadosContratoDto> listarDadosContrato(@PathVariable Long id) {
+        DadosContratoDto dto = service.listarDadosContrato(id);
+        return ResponseEntity.ok(dto);
+    }
+
 
     @DeleteMapping("{contratoId}")
     public void removerContrato(@PathVariable Long contratoId){
